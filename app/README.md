@@ -20,6 +20,23 @@ You can start editing the page by modifying `app/page.tsx`. The page auto-update
 
 This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
 
+## Twilio test setup
+
+1. Copy `.env.example` to `.env.local`
+2. Add your Twilio credentials
+3. Run `npm run dev`
+4. Open `/twilio-test`
+
+The `/twilio-test` page supports a safe mock mode by default. Leave mock mode enabled to test the UI and API flow without sending a real SMS.
+
+When you are ready to send a real SMS, add these environment variables and disable mock mode in the form:
+
+```bash
+TWILIO_ACCOUNT_SID=ACxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx
+TWILIO_AUTH_TOKEN=your_auth_token_here
+TWILIO_PHONE_NUMBER=+15005550006
+```
+
 ## Learn More
 
 To learn more about Next.js, take a look at the following resources:

@@ -1,4 +1,3 @@
-
 import Link from 'next/link';
 
 export default function Home() {
@@ -9,6 +8,11 @@ export default function Home() {
           <Link href="/kundeoversigt">
             <button className="px-6 py-2 bg-blue-600 text-white rounded hover:bg-blue-700">
               Kundeoversigt
+            </button>
+          </Link>
+          <Link href="/twilio-test">
+            <button className="px-6 py-2 bg-zinc-900 text-white rounded hover:bg-zinc-700">
+              Twilio test
             </button>
           </Link>
         </div>
