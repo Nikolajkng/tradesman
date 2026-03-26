@@ -1,22 +1,29 @@
 import Link from 'next/link';
+import DashboardTile from '@/components/DashboardTile';
+const dashboardTiles = [
+  { id: 1, label: 'Kunder', href: '/kundeoversigt', icon: '📋' },
+  { id: 2, label: 'Opret tilbud', href: '/tilbud', icon: '📝' },
+  { id: 3, label: 'Salg', href: '/salg', icon: '📈' },
+];
+
 
 export default function Home() {
   return (
-    <div className="flex flex-col flex-1 items-center justify-center bg-zinc-50 font-sans dark:bg-black">
-      <main className="flex flex-1 w-full max-w-3xl flex-col items-center justify-between py-32 px-16 bg-white dark:bg-black sm:items-start">
-        <div className="flex flex-col items-center gap-6 text-center sm:items-start sm:text-left">
-          <Link href="/kundeoversigt">
-            <button className="px-6 py-2 bg-blue-600 text-white rounded hover:bg-blue-700">
-              Kundeoversigt
-            </button>
-          </Link>
-          <Link href="/twilio-test">
-            <button className="px-6 py-2 bg-zinc-900 text-white rounded hover:bg-zinc-700">
-              Twilio test
-            </button>
-          </Link>
-        </div>
-      </main>
+    <div>
+      <div className="grid grid-cols-1 gap-4 sm:grid-cols-2">
+        {dashboardTiles.map((tile) => (
+          <DashboardTile
+            key={tile.id}
+            label={tile.label}
+            href={tile.href}
+            icon={tile.icon}
+          />
+        ))}
+      </div>
+
     </div>
   );
 }
+
+
+
