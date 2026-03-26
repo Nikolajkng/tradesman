@@ -3,6 +3,7 @@ import { Geist, Geist_Mono } from "next/font/google";
 import Header from "@/components/Header";
 import "./globals.css";
 
+
 const geistSans = Geist({
   variable: "--font-geist-sans",
   subsets: ["latin"],
@@ -28,10 +29,15 @@ export default function RootLayout({
       lang="da"
       className={`${geistSans.variable} ${geistMono.variable}`}
     >
-      <body className="min-h-screen antialiased">
-        <div className="mx-auto w-full max-w-5xl px-4 py-10">
-          <Header />
-          {children}
+      <body className="min-h-full flex flex-col" suppressHydrationWarning>
+        {/* Grey background with white box inside*/}
+        <div className="flex flex-1 items-center justify-center bg-zinc-100 px-4 py-10 text-zinc-900">
+          <main className="w-full max-w-3xl rounded-3xl border border-zinc-200 bg-white p-6 shadow-sm sm:p-8">
+            <Header></Header>
+            {children}
+
+
+          </main>
         </div>
       </body>
     </html>
