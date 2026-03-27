@@ -1,6 +1,9 @@
 import { createClient } from "@/lib/supabase/server";
 
-export async function GET({ params }: { params: Promise<{ id: string }> }) {
+export async function GET(
+  request: Request,
+  { params }: { params: Promise<{ id: string }> }
+) {
   const supabase = await createClient();
   const {
     data: { user },
