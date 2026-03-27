@@ -11,6 +11,8 @@ export default function SignupPage() {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [confirmPassword, setConfirmPassword] = useState("");
+  const [showPassword, setShowPassword] = useState(false);
+  const [showConfirmPassword, setShowConfirmPassword] = useState(false);
   const [loading, setLoading] = useState(false);
   const [message, setMessage] = useState<string | null>(null);
   const [error, setError] = useState<string | null>(null);
@@ -39,7 +41,7 @@ export default function SignupPage() {
       return;
     }
 
-    const { error: signUpError } = await supabase.auth.signUp({
+    const { data, error: signUpError } = await supabase.auth.signUp({
       email,
       password,
       options: {
@@ -53,12 +55,30 @@ export default function SignupPage() {
     setLoading(false);
 
     if (signUpError) {
-      setError(signUpError.message);
+      const isEmailTaken =
+        signUpError.message.toLowerCase().includes("already") ||
+        signUpError.message.toLowerCase().includes("registered");
+
+      setError(
+        isEmailTaken
+          ? "Denne email er allerede i brug. Proev at logge ind i stedet."
+          : signUpError.message,
+      );
+      return;
+    }
+
+    // Supabase can return a user with no identities when the email already exists.
+    if (
+      data.user &&
+      Array.isArray(data.user.identities) &&
+      data.user.identities.length === 0
+    ) {
+      setError("Denne email er allerede i brug. Proev at logge ind i stedet.");
       return;
     }
 
     setMessage(
-      "Brugeren er oprettet. Tjek din email og bekraeft kontoen via linket.",
+      "Brugeren er oprettet. Tjek din email og bekræft kontoen via linket.",
     );
 
     setFullName("");
@@ -91,22 +111,140 @@ export default function SignupPage() {
           onChange={(event) => setEmail(event.target.value)}
           required
         />
-        <input
-          type="password"
-          placeholder="Adgangskode"
-          className="w-full rounded-lg border border-zinc-300 px-3 py-2"
-          value={password}
-          onChange={(event) => setPassword(event.target.value)}
-          required
-        />
-        <input
-          type="password"
-          placeholder="Bekraeft adgangskode"
-          className="w-full rounded-lg border border-zinc-300 px-3 py-2"
-          value={confirmPassword}
-          onChange={(event) => setConfirmPassword(event.target.value)}
-          required
-        />
+        <div className="relative">
+          <input
+            type={showPassword ? "text" : "password"}
+            placeholder="Adgangskode"
+            className="w-full rounded-lg border border-zinc-300 px-3 py-2 pr-11"
+            value={password}
+            onChange={(event) => setPassword(event.target.value)}
+            required
+          />
+          <button
+            type="button"
+            onClick={() => setShowPassword((current) => !current)}
+            aria-label={showPassword ? "Skjul adgangskode" : "Vis adgangskode"}
+            title={showPassword ? "Skjul adgangskode" : "Vis adgangskode"}
+            className="absolute right-2 top-1/2 inline-flex h-7 w-7 -translate-y-1/2 items-center justify-center rounded-md text-zinc-500 transition-colors hover:bg-zinc-100 hover:text-zinc-800 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-zinc-400"
+          >
+            {showPassword ? (
+              <svg
+                viewBox="0 0 24 24"
+                fill="none"
+                className="h-4 w-4"
+                aria-hidden="true"
+              >
+                <path
+                  d="M3 3l18 18M10.58 10.58a2 2 0 102.83 2.83"
+                  stroke="currentColor"
+                  strokeWidth="2"
+                  strokeLinecap="round"
+                  strokeLinejoin="round"
+                />
+                <path
+                  d="M9.88 5.08A10.94 10.94 0 0112 5c5 0 9.27 3.11 11 7.5a11.82 11.82 0 01-4.21 5.28M6.61 6.61A12.05 12.05 0 001 12.5 11.82 11.82 0 005.22 17.78"
+                  stroke="currentColor"
+                  strokeWidth="2"
+                  strokeLinecap="round"
+                  strokeLinejoin="round"
+                />
+              </svg>
+            ) : (
+              <svg
+                viewBox="0 0 24 24"
+                fill="none"
+                className="h-4 w-4"
+                aria-hidden="true"
+              >
+                <path
+                  d="M1 12.5C2.73 8.11 7 5 12 5s9.27 3.11 11 7.5C21.27 16.89 17 20 12 20S2.73 16.89 1 12.5z"
+                  stroke="currentColor"
+                  strokeWidth="2"
+                  strokeLinecap="round"
+                  strokeLinejoin="round"
+                />
+                <circle
+                  cx="12"
+                  cy="12.5"
+                  r="3"
+                  stroke="currentColor"
+                  strokeWidth="2"
+                />
+              </svg>
+            )}
+          </button>
+        </div>
+        <div className="relative">
+          <input
+            type={showConfirmPassword ? "text" : "password"}
+            placeholder="Bekræft adgangskode"
+            className="w-full rounded-lg border border-zinc-300 px-3 py-2 pr-11"
+            value={confirmPassword}
+            onChange={(event) => setConfirmPassword(event.target.value)}
+            required
+          />
+          <button
+            type="button"
+            onClick={() => setShowConfirmPassword((current) => !current)}
+            aria-label={
+              showConfirmPassword
+                ? "Skjul bekræft adgangskode"
+                : "Vis bekræft adgangskode"
+            }
+            title={
+              showConfirmPassword
+                ? "Skjul bekræft adgangskode"
+                : "Vis bekræft adgangskode"
+            }
+            className="absolute right-2 top-1/2 inline-flex h-7 w-7 -translate-y-1/2 items-center justify-center rounded-md text-zinc-500 transition-colors hover:bg-zinc-100 hover:text-zinc-800 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-zinc-400"
+          >
+            {showConfirmPassword ? (
+              <svg
+                viewBox="0 0 24 24"
+                fill="none"
+                className="h-4 w-4"
+                aria-hidden="true"
+              >
+                <path
+                  d="M3 3l18 18M10.58 10.58a2 2 0 102.83 2.83"
+                  stroke="currentColor"
+                  strokeWidth="2"
+                  strokeLinecap="round"
+                  strokeLinejoin="round"
+                />
+                <path
+                  d="M9.88 5.08A10.94 10.94 0 0112 5c5 0 9.27 3.11 11 7.5a11.82 11.82 0 01-4.21 5.28M6.61 6.61A12.05 12.05 0 001 12.5 11.82 11.82 0 005.22 17.78"
+                  stroke="currentColor"
+                  strokeWidth="2"
+                  strokeLinecap="round"
+                  strokeLinejoin="round"
+                />
+              </svg>
+            ) : (
+              <svg
+                viewBox="0 0 24 24"
+                fill="none"
+                className="h-4 w-4"
+                aria-hidden="true"
+              >
+                <path
+                  d="M1 12.5C2.73 8.11 7 5 12 5s9.27 3.11 11 7.5C21.27 16.89 17 20 12 20S2.73 16.89 1 12.5z"
+                  stroke="currentColor"
+                  strokeWidth="2"
+                  strokeLinecap="round"
+                  strokeLinejoin="round"
+                />
+                <circle
+                  cx="12"
+                  cy="12.5"
+                  r="3"
+                  stroke="currentColor"
+                  strokeWidth="2"
+                />
+              </svg>
+            )}
+          </button>
+        </div>
 
         {error ? <p className="text-sm text-red-600">{error}</p> : null}
         {message ? <p className="text-sm text-emerald-700">{message}</p> : null}

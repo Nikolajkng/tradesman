@@ -1,7 +1,6 @@
 "use client";
 
 import Image from "next/image";
-import Link from "next/link";
 import { useEffect, useState } from "react";
 import { usePathname, useRouter } from "next/navigation";
 import { createClient } from "@/lib/supabase/client";
@@ -80,21 +79,14 @@ export default function Header({ initialEmail }: HeaderProps) {
             priority
           />
         </div>
-        {!showAuthButton || loading ? null : email ? (
+        {!showAuthButton || loading || !email ? null : (
           <button
             type="button"
             onClick={handleSignOut}
-            className="rounded-lg border border-zinc-300 px-3 py-1.5 text-sm text-zinc-800"
+            className="rounded-lg border border-zinc-300 bg-white px-3 py-1.5 text-sm text-zinc-800 transition hover:-translate-y-0.5 hover:border-zinc-400 hover:shadow-sm"
           >
             Log ud
           </button>
-        ) : (
-          <Link
-            href="/login"
-            className="rounded-lg border border-zinc-300 px-3 py-1.5 text-sm text-zinc-800"
-          >
-            Log ind
-          </Link>
         )}
       </div>
       <h1 className="text-2xl font-semibold tracking-tight">{welcomeLabel}</h1>

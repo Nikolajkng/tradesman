@@ -64,7 +64,7 @@ export default function LoginPage() {
     <div className="mx-auto max-w-md rounded-2xl border border-zinc-200 p-6">
       <h1 className="mb-1 text-2xl font-semibold">Log ind</h1>
       <p className="mb-6 text-sm text-zinc-600">
-        Brug din email og adgangskode for at tilgaa dashboardet.
+        Brug din email og adgangskode for at tilgå dashboardet.
       </p>
 
       <form onSubmit={handleSignIn} className="space-y-3">
