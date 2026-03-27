@@ -2,7 +2,7 @@ import twilio from "twilio";
 
 const client = twilio(
   process.env.TWILIO_ACCOUNT_SID!,
-  process.env.TWILIO_AUTH_TOKEN!
+  process.env.TWILIO_AUTH_TOKEN!,
 );
 
 export async function POST(request: Request) {
@@ -12,7 +12,7 @@ export async function POST(request: Request) {
     if (!to || !message) {
       return Response.json(
         { ok: false, error: "Missing 'to' or 'message'" },
-        { status: 400 }
+        { status: 400 },
       );
     }
 
@@ -27,10 +27,9 @@ export async function POST(request: Request) {
       sid: res.sid,
       status: res.status,
     });
-  } catch (err: any) {
-    return Response.json(
-      { ok: false, error: err.message },
-      { status: 500 }
-    );
+  } catch (err: unknown) {
+    const errorMessage = err instanceof Error ? err.message : "Unknown error";
+
+    return Response.json({ ok: false, error: errorMessage }, { status: 500 });
   }
 }
