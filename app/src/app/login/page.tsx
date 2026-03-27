@@ -15,7 +15,11 @@ export default function LoginPage() {
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState<string | null>(null);
 
-  const nextPath = searchParams.get("next") || "/dashboard";
+  const rawNext = searchParams.get("next") ?? "";
+  const nextPath =
+    rawNext.startsWith("/") && !rawNext.startsWith("//")
+      ? rawNext
+      : "/dashboard";
 
   async function handleSignIn(event: FormEvent<HTMLFormElement>) {
     event.preventDefault();
