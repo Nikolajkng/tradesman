@@ -1,5 +1,5 @@
 import Link from 'next/link';
-import DashboardTile from '@/components/DashboardTile';
+import DashboardTile from '@/components/dashboardTile';
 const dashboardTiles = [
   { id: 1, label: 'Kunder', href: '/kundeoversigt', icon: '📋' },
   { id: 2, label: 'Opret tilbud', href: '/tilbud', icon: '📝' },
