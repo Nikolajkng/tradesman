@@ -1,7 +1,10 @@
 import Image from "next/image";
 
-// components/Header.js
-export default function Header() {
+interface HeaderProps {
+  name: string | undefined;
+}
+
+export default function Header({ name }: HeaderProps) {
   return (
     <div className="mb-12">
       <div className="mb-4">
@@ -18,10 +21,9 @@ export default function Header() {
             priority
           />
         </div>
-        <h1 className="text-2xl font-semibold tracking-tight">
-          Velkommen *Bruger*
+        <h1 className="text-2xl font-semibold tracking-tight text-zinc-900">
+          Velkommen <span className="capitalize">{name}</span>
         </h1>
-
       </div>
     </div>
   );

@@ -1,12 +1,10 @@
-
 "use client";
 
 import Link from "next/link";
 import react from "react";
-import { supabase_client } from '@/lib/supabase/client'
+import { supabase_client } from "@/lib/supabase/client";
 
 export default function RegisterPage() {
-
   const [email, setEmail] = react.useState("");
   const [password, setPassword] = react.useState("");
   const [loading, setLoading] = react.useState(false);
@@ -29,7 +27,7 @@ export default function RegisterPage() {
       email,
       password,
       options: {
-        emailRedirectTo: `${window.location.origin}/auth/callback`,
+        emailRedirectTo: `${window.location.origin}/api/auth/confirm`,
       },
     });
 
