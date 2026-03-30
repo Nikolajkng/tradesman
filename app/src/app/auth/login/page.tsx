@@ -63,7 +63,7 @@ export default function LoginPage() {
                 {/* Reset Password */}
                 <div className="text-right">
                     <Link
-                        href="/reset-password"
+                        href="/auth/reset-password"
                         className="text-sm text-zinc-600 underline"
                     >
                         Glemt adgangskode?
