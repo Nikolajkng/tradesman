@@ -3,14 +3,18 @@
 import Link from "next/link";
 import { useState } from "react";
 import { supabase_client } from "@/lib/supabase/client";
+import { useRouter } from "next/navigation";
 
 export default function UpdatePasswordPage() {
   const [password, setPassword] = useState("");
   const [confirmPassword, setConfirmPassword] = useState("");
   const [loading, setLoading] = useState(false);
+  const router = useRouter();
   const [message, setMessage] = useState("");
 
-  const handleUpdatePassword = async (event: any) => {
+  const handleUpdatePassword = async (
+    event: React.FormEvent<HTMLFormElement>,
+  ) => {
     event.preventDefault();
     setLoading(true);
     setMessage("");
@@ -36,9 +40,16 @@ export default function UpdatePasswordPage() {
     if (error) {
       setMessage(error.message);
     } else {
-      setMessage("Adgangskode opdateret! Du kan nu logge ind.");
+      await supabase_client.auth.signOut();
+
+      setMessage("Adgangskode opdateret! Du bliver nu sendt til login...");
       setPassword("");
       setConfirmPassword("");
+
+      setTimeout(() => {
+        router.refresh();
+        router.push("/auth/login");
+      }, 2000);
     }
   };
 
