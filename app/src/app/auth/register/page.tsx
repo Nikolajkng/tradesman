@@ -81,9 +81,9 @@ export default function RegisterPage() {
       </form>
 
       <p className="mt-4 text-center text-sm text-zinc-600">
-        Already have an account?{" "}
+        Har du en konto?{" "}
         <Link href="/auth/login" className="underline">
-          Log in
+          Log på her
         </Link>
       </p>
     </div>
