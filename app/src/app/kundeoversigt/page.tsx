@@ -82,47 +82,22 @@ export default function Kundeoversigt() {
     <div style={{ padding: "20px" }}>
       <button
         onClick={() => setShowForm(!showForm)}
-        style={{
-          padding: "10px 20px",
-          marginBottom: "20px",
-          backgroundColor: "#3b82f6",
-          color: "white",
-          border: "none",
-          borderRadius: "4px",
-          cursor: "pointer",
-        }}
+        style={{padding: "10px 20px", marginBottom: "20px", backgroundColor: "#3b82f6", color: "white", border: "none", borderRadius: "4px", cursor: "pointer"}}
       >
         {showForm ? "Annuller" : "Opret Kunde"}
       </button>
 
       {showForm && (
-        <div
-          style={{
-            marginBottom: "20px",
-            padding: "20px",
-            border: "1px solid #ddd",
-            borderRadius: "4px",
-          }}
-        >
+        <div style={{marginBottom: "20px", padding: "20px", border: "1px solid #ddd", borderRadius: "4px"}}>
           <h2>Ny kunde</h2>
-          <div
-            style={{
-              display: "grid",
-              gridTemplateColumns: "1fr 1fr",
-              gap: "10px",
-            }}
-          >
+          <div style={{display: "grid", gridTemplateColumns: "1fr 1fr", gap: "10px"}}>
             <input
               type="text"
               name="navn"
               placeholder="Navn"
               value={formData.navn}
               onChange={handleInputChange}
-              style={{
-                padding: "8px",
-                border: "1px solid #ddd",
-                borderRadius: "4px",
-              }}
+              style={{padding: "8px", border: "1px solid #ddd", borderRadius: "4px"}}
             />
             <input
               type="text"
@@ -130,38 +105,20 @@ export default function Kundeoversigt() {
               placeholder="Nummer"
               value={formData.nummer}
               onChange={handleInputChange}
-              style={{
-                padding: "8px",
-                border: "1px solid #ddd",
-                borderRadius: "4px",
-              }}
+              style={{padding: "8px", border: "1px solid #ddd", borderRadius: "4px"}}
             />
           </div>
           <div style={{ marginTop: "10px", display: "flex", gap: "10px" }}>
             <button
               onClick={handleSave}
               disabled={loading}
-              style={{
-                padding: "8px 16px",
-                backgroundColor: "#10b981",
-                color: "white",
-                border: "none",
-                borderRadius: "4px",
-                cursor: "pointer",
-              }}
+              style={{padding: "8px 16px", backgroundColor: "#10b981", color: "white", border: "none", borderRadius: "4px", cursor: "pointer"}}
             >
               {loading ? "Gemmer..." : "Gem"}
             </button>
             <button
               onClick={() => setShowForm(false)}
-              style={{
-                padding: "8px 16px",
-                backgroundColor: "#6b7280",
-                color: "white",
-                border: "none",
-                borderRadius: "4px",
-                cursor: "pointer",
-              }}
+              style={{padding: "8px 16px", backgroundColor: "#6b7280", color: "white", border: "none", borderRadius: "4px", cursor: "pointer"}}
             >
               Annuller
             </button>
@@ -172,62 +129,18 @@ export default function Kundeoversigt() {
       <table style={{ borderCollapse: "collapse", width: "100%" }}>
         <thead>
           <tr>
-            <th
-              style={{
-                border: "1px solid #ddd",
-                padding: "8px",
-                textAlign: "left",
-              }}
-            >
-              ID
-            </th>
-            <th
-              style={{
-                border: "1px solid #ddd",
-                padding: "8px",
-                textAlign: "left",
-              }}
-            >
-              {" "}
-              Navn{" "}
-            </th>
-            <th
-              style={{
-                border: "1px solid #ddd",
-                padding: "8px",
-                textAlign: "left",
-              }}
-            >
-              {" "}
-              Nummer{" "}
-            </th>
-            <th
-              style={{
-                border: "1px solid #ddd",
-                padding: "8px",
-                textAlign: "left",
-              }}
-            >
-              {" "}
-              Handling{" "}
-            </th>
+            <th style={{ border: "1px solid #ddd", padding: "8px", textAlign: "left", }}>ID</th>
+            <th style={{ border: "1px solid #ddd", padding: "8px", textAlign: "left",}}>Navn</th>
+            <th style={{ border: "1px solid #ddd", padding: "8px", textAlign: "left",}}>Nummer </th>
+            <th style={{ border: "1px solid #ddd", padding: "8px", textAlign:"left", }}>Handling</th>
           </tr>
         </thead>
         <tbody>
           {customers.map((customer) => (
             <tr key={customer.id}>
-              <td style={{ border: "1px solid #ddd", padding: "8px" }}>
-                {" "}
-                {customer.id}{" "}
-              </td>
-              <td style={{ border: "1px solid #ddd", padding: "8px" }}>
-                {" "}
-                {customer.navn}{" "}
-              </td>
-              <td style={{ border: "1px solid #ddd", padding: "8px" }}>
-                {" "}
-                {customer.nummer}{" "}
-              </td>
+              <td style={{ border: "1px solid #ddd", padding: "8px" }}>{customer.id}</td>
+              <td style={{ border: "1px solid #ddd", padding: "8px" }}>{customer.navn}</td>
+              <td style={{ border: "1px solid #ddd", padding: "8px" }}>{customer.nummer}</td>
               <td style={{ border: "1px solid #ddd", padding: "8px" }}>
                 <button
                   onClick={() => handleDelete(customer.id)}
@@ -248,7 +161,6 @@ export default function Kundeoversigt() {
           ))}
         </tbody>
       </table>
-
       {customers.length === 0 && !loading && (
         <p style={{ marginTop: "20px", color: "#666" }}>Ingen kunder fundet.</p>
       )}
