@@ -2,14 +2,14 @@
 
 import Image from "next/image";
 import { supabase_client } from "@/lib/supabase/client";
-import { useRouter } from "next/navigation";
+import { useRouter, usePathname } from "next/navigation";
+import Link from "next/link"; 
+import { ChevronLeft, LogOut } from "lucide-react"; 
 
-interface HeaderProps {
-  name: string | undefined;
-}
-
-export default function Header({ name }: HeaderProps) {
+export default function Header({ name }: { name: string | undefined }) {
   const router = useRouter();
+  const pathname = usePathname();
+  const isDashboard = pathname === "/dashboard";
 
   const handleLogout = async () => {
     await supabase_client.auth.signOut();
@@ -17,35 +17,50 @@ export default function Header({ name }: HeaderProps) {
     router.push("/auth/login");
   };
 
+  const getTitle = () => {
+    if (isDashboard) return <>Velkommen <span className="capitalize">{name}</span></>;
+    if (pathname === "/kundeoversigt") return "Kunder";
+    if (pathname === "/tilbud") return "Nyt Tilbud";
+    if (pathname === "/salg") return "Salgsoversigt";
+    return "Tradesman";
+  };
+
   return (
-    // 1. TILFØJ flex OG justify-between HER
-    <div className="mb-12 flex items-start justify-between">
-      {/* Venstre side: Logo og Velkomst */}
-      <div>
-        <div className="flex items-center gap-2 mb-2">
-          <p className="text-sm font-medium uppercase tracking-[0.24em] text-zinc-500">
-            Tradesman
-          </p>
-          <Image
-            src="/images/helmet.png"
-            alt="Helmet icon"
-            width={20}
-            height={20}
-            className="h-5 w-5 shrink-0 object-contain"
-            priority
-          />
+    <div className="mb-8 flex items-center justify-between border-b border-zinc-100 pb-4">
+      <div className="flex items-center gap-3">
+        {/* TILBAGE-KNAP: Kun synlig når man er væk fra Dashboardet */}
+        {!isDashboard && (
+          <button 
+            onClick={() => router.back()} 
+            className="mr-1 rounded-full p-2 hover:bg-zinc-100 transition-colors active:scale-95"
+            aria-label="Gå tilbage"
+          >
+            <ChevronLeft size={24} className="text-zinc-600" />
+          </button>
+        )}
+
+        <div>
+          <div className="flex items-center gap-2">
+            {/* Navnet er nu et Link – god PWA-stil for hurtig hjem-navigation */}
+            <Link href="/dashboard" className="group flex items-center gap-1.5">
+              <p className="text-[10px] font-bold uppercase tracking-[0.2em] text-zinc-400 group-hover:text-zinc-600 transition-colors">
+                Tradesman
+              </p>
+              <div className="h-1 w-1 rounded-full bg-zinc-300 group-hover:bg-yellow-500" />
+            </Link>
+          </div>
+          <h1 className="text-xl font-bold tracking-tight text-zinc-900">
+            {getTitle()}
+          </h1>
         </div>
-        <h1 className="text-2xl font-semibold tracking-tight text-zinc-900">
-          Velkommen <span className="capitalize">{name}</span>
-        </h1>
       </div>
 
-      {/* Højre side: Log ud knap */}
       <button
         onClick={handleLogout}
-        className="mt-2 text-xs font-bold uppercase tracking-widest text-red-500 transition-colors duration-200 hover:text-red-800"
+        className="flex items-center gap-2 text-[10px] font-bold uppercase tracking-widest text-zinc-400 hover:text-red-500 transition-colors duration-200"
       >
-        Log ud
+        <span>Log ud</span>
+        <LogOut size={14} />
       </button>
     </div>
   );

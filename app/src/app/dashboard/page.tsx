@@ -1,5 +1,4 @@
 import DashboardTile from "@/components/dashboardTile";
-import Header from "@/components/header";
 import { createClient } from "@/lib/supabase/server";
 import { redirect } from "next/navigation";
 
@@ -25,8 +24,6 @@ export default async function Dashboard() {
 
   return (
     <div>
-      <Header name={displayName} />
-
       <div className="grid grid-cols-1 gap-4 sm:grid-cols-2 lg:grid-cols-3">
         {dashboardTiles.map((tile) => (
           <DashboardTile
