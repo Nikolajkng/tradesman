@@ -12,7 +12,7 @@ export default function LoginPage() {
   const [loading, setLoading] = useState(false);
   const router = useRouter();
 
-  const handleLogin = async (e: React.FormEvent<HTMLFormElement>) => {
+  const handleLogin = async (e: React.SubmitEvent<HTMLFormElement>) => {
     e.preventDefault(); // stop form from refreshing the page
     setLoading(true);
     setMessage("");
@@ -108,30 +108,3 @@ export default function LoginPage() {
     </div>
   );
 }
-
-//   return (
-//     <div style={{ padding: 20 }}>
-//       <h1>Login</h1>
-
-//       <input
-//         placeholder="Email"
-//         value={email}
-//         onChange={(e) => setEmail(e.target.value)}
-//       />
-//       <br />
-
-//       <input
-//         type="password"
-//         placeholder="Password"
-//         value={password}
-//         onChange={(e) => setPassword(e.target.value)}
-//       />
-//       <br />
-
-//       <button onClick={handleLogin}>Login</button>
-//       <button onClick={handleSignup}>Sign Up</button>
-
-//       <p>{message}</p>
-//     </div>
-//   )
-//}
