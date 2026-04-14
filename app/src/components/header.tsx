@@ -20,6 +20,8 @@ export default function Header({ name }: { name: string | undefined }) {
   const getTitle = () => {
     const currentPathname = usePathname();
     switch (currentPathname) {
+      case "/dashboard":
+        return `Velkommen ${name}`;
       case "/kundeoversigt":
         return "Kundeoversigt";
       case "/tilbud":
