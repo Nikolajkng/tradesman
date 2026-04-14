@@ -12,38 +12,36 @@ export default function LoginPage() {
   const [loading, setLoading] = useState(false);
   const router = useRouter();
 
-  const handleLogin = async (e: React.SubmitEvent<HTMLFormElement>) => {
-    e.preventDefault(); // stop form from refreshing the page
+  const handleLogin = async (e: React.FormEvent<HTMLFormElement>) => {
+    e.preventDefault();
     setLoading(true);
     setMessage("");
 
-    const { error } = await supabase_client.auth.signInWithPassword({
-      email,
-      password,
-    });
+    try {
+      const { data, error } = await supabase_client.auth.signInWithPassword({
+        email,
+        password,
+      });
 
-    if (error) {
-      setMessage(error.message);
-      setLoading(false);
-    } else {
-      // Redirect to dashboard on successful login
+      if (error) {
+        setMessage(error.message);
+        return;
+      }
+
+      if (!data.session) {
+        setMessage("Login gennemforte ikke korrekt. Prov igen.");
+        return;
+      }
+
+      router.replace("/dashboard");
       router.refresh();
-      router.push("/dashboard");
+    } catch {
+      setMessage("Der opstod en fejl under login. Prov igen.");
+    } finally {
+      setLoading(false);
     }
   };
 
-  // const handleSignup = async () => {
-  //     const { error } = await supabase_client.auth.signUp({
-  //         email,
-  //         password,
-  //     })
-
-  //     if (error) {
-  //         setMessage(error.message)
-  //     } else {
-  //         setMessage('User created!')
-  //     }
-  // }
 
   return (
     <div className="mx-auto max-w-md rounded-2xl border border-zinc-200 p-6">
