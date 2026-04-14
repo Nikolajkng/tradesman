@@ -38,6 +38,9 @@ export default function RegisterPage() {
       return;
     }
 
+    // Prevent auto-login after sign-up so user can explicitly log in from the login page.
+    await supabaseBrowserClient.auth.signOut();
+
     setMessage("Account created! Check your email to confirm.");
     setEmail("");
     setPassword("");
