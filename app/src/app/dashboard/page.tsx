@@ -1,20 +1,18 @@
 import DashboardTile from "@/components/dashboardTile";
-import { createClient } from "@/lib/supabase/server";
+import { createSupabaseServerClient } from "@/lib/supabase/server";
 import { redirect } from "next/navigation";
 
 export default async function Dashboard() {
-  const supabase = await createClient();
+  const supabaseServerClient = await createSupabaseServerClient();
 
   const {
     data: { user },
     error,
-  } = await supabase.auth.getUser();
+  } = await supabaseServerClient.auth.getUser();
 
   if (!user || error) {
     redirect("/auth/login");
   }
-
-  const displayName = user.email?.split("@")[0];
 
   const dashboardTiles = [
     { id: 1, label: "Kunder", href: "/kundeoversigt", icon: "📋" },

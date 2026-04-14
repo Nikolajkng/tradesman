@@ -9,7 +9,7 @@ export async function updateSession(request: NextRequest) {
   let supabaseResponse = NextResponse.next({ request });
 
   // 2. Create the Supabase client and sync cookies
-  const supabase = createServerClient(
+  const supabaseServerClient = createServerClient(
     process.env.NEXT_PUBLIC_SUPABASE_URL!,
     process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY!,
     {
@@ -36,7 +36,7 @@ export async function updateSession(request: NextRequest) {
   // 3. IMPORTANT: Get the user to refresh the session
   const {
     data: { user },
-  } = await supabase.auth.getUser();
+  } = await supabaseServerClient.auth.getUser();
 
   const pathname = request.nextUrl.pathname;
   const isAuthPage = pathname.startsWith("/auth");

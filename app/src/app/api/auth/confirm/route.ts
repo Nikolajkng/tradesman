@@ -1,4 +1,4 @@
-import { createClient } from "@/lib/supabase/server";
+import { createSupabaseServerClient } from "@/lib/supabase/server";
 import { type EmailOtpType } from "@supabase/supabase-js";
 import { NextResponse, type NextRequest } from "next/server";
 
@@ -23,8 +23,8 @@ export async function GET(request: NextRequest) {
   }
 
   // 3. Initialize Supabase client and verify the OTP (One-Time Password)
-  const supabase = await createClient();
-  const { error } = await supabase.auth.verifyOtp({
+  const supabaseServerClient = await createSupabaseServerClient();
+  const { error } = await supabaseServerClient.auth.verifyOtp({
     type,
     token_hash,
   });

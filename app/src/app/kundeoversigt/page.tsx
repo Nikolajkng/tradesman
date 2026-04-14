@@ -1,7 +1,7 @@
 "use client";
 
 import { useState, useEffect } from "react";
-import { supabase_client } from "@/lib/supabase/client";
+import { supabaseBrowserClient } from "@/lib/supabase/client";
 
 type Customer = {
   id: string; // Supabase bruger UUID (strenge)
@@ -21,7 +21,7 @@ export default function Kundeoversigt() {
   // Get customers from supabase
   useEffect(() => {
     async function fetchCustomers() {
-      const { data, error } = await supabase_client
+      const { data, error } = await supabaseBrowserClient
         .from("kunder")
         .select("id, navn, nummer");
 
@@ -45,7 +45,7 @@ export default function Kundeoversigt() {
     e.preventDefault();
     setLoading(true);
 
-    const { data, error } = await supabase_client
+    const { data, error } = await supabaseBrowserClient
       .from("kunder")
       .insert([{ navn: formData.navn, nummer: formData.nummer }])
       .select();
@@ -64,7 +64,7 @@ export default function Kundeoversigt() {
   const handleDelete = async (id: string) => {
     if (!confirm("Er du sikker på, at du vil slette denne kunde?")) return;
 
-    const { error } = await supabase_client
+    const { error } = await supabaseBrowserClient
       .from("kunder")
       .delete()
       .eq("id", id);

@@ -2,7 +2,7 @@
 
 import Link from "next/link";
 import { useState } from "react";
-import { supabase_client } from "@/lib/supabase/client";
+import { supabaseBrowserClient } from "@/lib/supabase/client";
 import { useRouter } from "next/navigation";
 
 export default function UpdatePasswordPage() {
@@ -31,7 +31,7 @@ export default function UpdatePasswordPage() {
       return;
     }
 
-    const { error } = await supabase_client.auth.updateUser({
+    const { error } = await supabaseBrowserClient.auth.updateUser({
       password: password,
     });
 
@@ -40,7 +40,7 @@ export default function UpdatePasswordPage() {
     if (error) {
       setMessage(error.message);
     } else {
-      await supabase_client.auth.signOut();
+      await supabaseBrowserClient.auth.signOut();
 
       setMessage("Adgangskode opdateret! Du bliver nu sendt til login...");
       setPassword("");

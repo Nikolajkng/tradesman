@@ -1,17 +1,17 @@
 "use client";
 
 import Link from "next/link";
-import react from "react";
-import { supabase_client } from "@/lib/supabase/client";
+import { useState, type FormEvent } from "react";
+import { supabaseBrowserClient } from "@/lib/supabase/client";
 
 export default function RegisterPage() {
-  const [email, setEmail] = react.useState("");
-  const [password, setPassword] = react.useState("");
-  const [loading, setLoading] = react.useState(false);
-  const [message, setMessage] = react.useState<string | null>(null);
-  const [error, setError] = react.useState<string | null>(null);
+  const [email, setEmail] = useState("");
+  const [password, setPassword] = useState("");
+  const [loading, setLoading] = useState(false);
+  const [message, setMessage] = useState<string | null>(null);
+  const [error, setError] = useState<string | null>(null);
 
-  async function handleSignUp(event: React.SubmitEvent<HTMLFormElement>) {
+  async function handleSignUp(event: FormEvent<HTMLFormElement>) {
     event.preventDefault();
     setLoading(true);
     setMessage(null);
@@ -23,7 +23,7 @@ export default function RegisterPage() {
       return;
     }
 
-    const { error: signUpError } = await supabase_client.auth.signUp({
+    const { error: signUpError } = await supabaseBrowserClient.auth.signUp({
       email,
       password,
       options: {

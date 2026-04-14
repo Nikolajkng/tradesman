@@ -1,25 +1,24 @@
 "use client";
 
-import Image from "next/image";
-import { supabase_client } from "@/lib/supabase/client";
+import { supabaseBrowserClient } from "@/lib/supabase/client";
 import { useRouter, usePathname } from "next/navigation";
 import Link from "next/link";
 import { ChevronLeft, LogOut } from "lucide-react";
 
 export default function Header({ name }: { name: string | undefined }) {
   const router = useRouter();
-  const onStartPage = usePathname().includes("/auth");
-  const onDashboard = usePathname().includes("/dashboard");
+  const pathname = usePathname();
+  const onStartPage = pathname.includes("/auth");
+  const onDashboard = pathname.includes("/dashboard");
 
   const handleLogout = async () => {
-    await supabase_client.auth.signOut();
+    await supabaseBrowserClient.auth.signOut();
     router.refresh();
     router.push("/auth/login");
   };
 
   const getTitle = () => {
-    const currentPathname = usePathname();
-    switch (currentPathname) {
+    switch (pathname) {
       case "/dashboard":
         return `Velkommen ${name}`;
       case "/kundeoversigt":
@@ -62,9 +61,8 @@ export default function Header({ name }: { name: string | undefined }) {
           </h1>
         </div>
       </div>
-      { }
       {/* Logout button */}
-      {!onStartPage && (
+      {onDashboard && (
         <button
           onClick={handleLogout}
           className="flex items-center gap-2 text-[10px] font-bold uppercase tracking-widest text-zinc-400 hover:text-red-500 transition-colors duration-100"

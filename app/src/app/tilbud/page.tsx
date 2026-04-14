@@ -1,8 +1,7 @@
 "use client";
 
 import { useState, useEffect } from "react";
-import { supabase_client } from "@/lib/supabase/client";
-import { useRouter } from "next/navigation";
+import { supabaseBrowserClient } from "@/lib/supabase/client";
 
 const Icons = {
   User: "👤",
@@ -16,7 +15,6 @@ const Icons = {
 };
 
 export default function OpretTilbud() {
-  const router = useRouter();
   const [kunder, setKunder] = useState<any[]>([]);
   const [senesteTilbud, setSenesteTilbud] = useState<any[]>([]);
   const [loading, setLoading] = useState(false);
@@ -46,7 +44,7 @@ export default function OpretTilbud() {
   }, []);
 
   const fetchKunder = async () => {
-    const { data } = await supabase_client.from("kunder").select("id, navn");
+    const { data } = await supabaseBrowserClient.from("kunder").select("id, navn");
     if (data && data.length > 0) {
       setKunder(data);
       setValgtKunde(data[0].id);
@@ -54,7 +52,7 @@ export default function OpretTilbud() {
   };
 
   const fetchSenesteTilbud = async () => {
-    const { data } = await supabase_client
+    const { data } = await supabaseBrowserClient
       .from("tilbud")
       .select("*, kunder(navn)")
       .order("created_at", { ascending: false })
@@ -68,7 +66,7 @@ export default function OpretTilbud() {
       return;
 
     try {
-      const { error } = await supabase_client
+      const { error } = await supabaseBrowserClient
         .from("tilbud")
         .delete()
         .eq("id", id);
@@ -118,7 +116,7 @@ export default function OpretTilbud() {
     try {
       const {
         data: { user },
-      } = await supabase_client.auth.getUser();
+      } = await supabaseBrowserClient.auth.getUser();
       const tilbudData = {
         kunde_id: valgtKunde,
         pris: iAlt,
@@ -133,11 +131,11 @@ export default function OpretTilbud() {
       };
 
       const { error } = redigeringsId
-        ? await supabase_client
+        ? await supabaseBrowserClient
             .from("tilbud")
             .update(tilbudData)
             .eq("id", redigeringsId)
-        : await supabase_client.from("tilbud").insert([tilbudData]);
+        : await supabaseBrowserClient.from("tilbud").insert([tilbudData]);
 
       if (error) throw error;
 
@@ -236,7 +234,7 @@ export default function OpretTilbud() {
               placeholder="F.eks. Ladeboks type 2..."
               value={materialer}
               onChange={(e) => setMaterialer(e.target.value)}
-              className="w-full p-4 bg-zinc-50 rounded-2xl min-h-[100px] font-medium outline-none focus:bg-white border-2 border-transparent focus:border-blue-50 transition-all resize-none"
+              className="w-full p-4 bg-zinc-50 rounded-2xl min-h-25 font-medium outline-none focus:bg-white border-2 border-transparent focus:border-blue-50 transition-all resize-none"
             />
 
             <div className="grid grid-cols-2 gap-4">
@@ -270,7 +268,7 @@ export default function OpretTilbud() {
           <button
             type="submit"
             disabled={loading}
-            className="w-full bg-zinc-900 text-white font-black py-6 rounded-[2rem] shadow-xl hover:bg-black active:scale-[0.98] transition-all flex items-center justify-center gap-3"
+            className="w-full bg-zinc-900 text-white font-black py-6 rounded-4xl shadow-xl hover:bg-black active:scale-[0.98] transition-all flex items-center justify-center gap-3"
           >
             {loading
               ? "BEHANDLER..."
@@ -290,7 +288,7 @@ export default function OpretTilbud() {
             {senesteTilbud.map((t) => (
               <div
                 key={t.id}
-                className="bg-white p-5 rounded-[2rem] border border-zinc-100 flex justify-between items-center group shadow-sm hover:border-blue-100 transition-all"
+                className="bg-white p-5 rounded-4xl border border-zinc-100 flex justify-between items-center group shadow-sm hover:border-blue-100 transition-all"
               >
                 <div className="flex gap-4 items-center">
                   <div className="w-12 h-12 bg-zinc-50 rounded-2xl flex items-center justify-center text-xl">

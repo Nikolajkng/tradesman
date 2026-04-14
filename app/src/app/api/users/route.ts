@@ -1,6 +1,6 @@
 // app/api/<resource>/route.ts
 
-export async function GET(request: Request) {
+export async function GET() {
   return Response.json({ data: "GET response" })
 }
 
@@ -12,10 +12,10 @@ export async function POST(request: Request) {
   })
 }
 
-export async function PUT(request: Request) {
+export async function PUT() {
   return Response.json({ message: "Updated" })
 }
 
-export async function DELETE(request: Request) {
+export async function DELETE() {
   return Response.json({ message: "Deleted" })
 }
